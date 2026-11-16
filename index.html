@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jornal VIP | Netflix News</title>
+<meta name="theme-color" content="#111111">
+<title>JORNAL</title>
 
 <style>
 * {
@@ -13,57 +14,89 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #100d0e;
-  color: white;
-  font-family: Arial, sans-serif;
+html {
+  scroll-behavior: smooth;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  background: #101010;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* CABEÇALHO */
+
 header {
-  background: #080808;
-  border-bottom: 3px solid #e50914;
-  padding: 25px 7%;
-  text-align: center;
+  background: rgba(15,15,15,.95);
+  padding: 22px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #292929;
+  animation: aparecerTopo .8s ease;
 }
 
 .logo {
-  color: #e50914;
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 900;
+  color: #e50914;
   letter-spacing: 3px;
-}
-
-.subtitle {
-  color: #ccc;
-  margin-top: 8px;
-  letter-spacing: 4px;
-  font-size: 12px;
+  animation: brilho 2s infinite alternate;
 }
 
 nav {
-  background: #1b1718;
-  padding: 16px;
-  text-align: center;
+  display: flex;
+  gap: 25px;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  margin: 0 15px;
-  font-size: 13px;
   font-weight: bold;
+  transition: .3s;
 }
 
 nav a:hover {
   color: #e50914;
+  transform: translateY(-3px);
 }
 
+/* DESTAQUE */
+
 .hero {
-  padding: 65px 8%;
+  min-height: 450px;
+  padding: 100px 8%;
+  display: flex;
+  align-items: center;
   background:
-    linear-gradient(90deg, #100d0e 20%, #100d0e99),
-    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600")
-    center/cover;
+    linear-gradient(90deg, #101010 10%, rgba(16,16,16,.65)),
+    linear-gradient(135deg, #4d080d, #171717 70%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: #e50914;
+  filter: blur(150px);
+  opacity: .18;
+  right: 5%;
+  top: 20%;
+}
+
+.hero-content {
+  max-width: 650px;
+  position: relative;
+  z-index: 1;
+  animation: subir 1s ease;
 }
 
 .hero span {
@@ -73,164 +106,295 @@ nav a:hover {
 }
 
 .hero h1 {
-  font-size: clamp(35px, 6vw, 65px);
-  max-width: 700px;
+  font-size: clamp(38px, 6vw, 65px);
   margin: 20px 0;
 }
 
 .hero p {
-  color: #ddd;
-  max-width: 550px;
+  color: #ccc;
+  font-size: 18px;
   line-height: 1.7;
 }
 
-.section {
-  padding: 45px 7%;
+.hero button {
+  background: #e50914;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: .3s;
 }
 
-.section h2 {
+.hero button:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px #e50914;
+}
+
+/* CONTEÚDO */
+
+.container {
+  padding: 55px 8%;
+}
+
+.section-title {
+  font-size: 28px;
+  margin-bottom: 30px;
   border-left: 5px solid #e50914;
   padding-left: 15px;
-  margin-bottom: 28px;
-  font-size: 25px;
 }
 
-.search {
-  width: 100%;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #444;
-  background: #211c1d;
-  color: white;
-  margin-bottom: 30px;
-  font-size: 15px;
-}
+/* NOTÍCIAS */
 
-.movies {
+.news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 25px;
 }
 
-.card {
-  background: #211c1d;
-  border-radius: 9px;
+.news-card {
+  background: #1c1c1c;
+  border-radius: 12px;
   overflow: hidden;
-  transition: .3s;
-  border: 1px solid #30292a;
+  border: 1px solid #292929;
+  transition: .4s ease;
+  opacity: 0;
+  transform: translateY(35px);
 }
 
-.card:hover {
-  transform: translateY(-8px);
+.news-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.news-card:hover {
+  transform: translateY(-10px);
   border-color: #e50914;
+  box-shadow: 0 15px 35px #e5091430;
 }
 
-.card img {
-  width: 100%;
-  height: 310px;
-  object-fit: cover;
-  background: #30292a;
+.news-image {
+  height: 190px;
+  background: linear-gradient(135deg, #4b1115, #252525);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 55px;
+  transition: .5s;
 }
 
-.card-content {
-  padding: 17px;
+.news-card:hover .news-image {
+  transform: scale(1.04);
 }
 
-.tag {
+.news-content {
+  padding: 22px;
+}
+
+.category {
   color: #e50914;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
-  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.card h3 {
-  margin: 10px 0;
-  font-size: 18px;
+.news-content h3 {
+  font-size: 21px;
+  margin: 12px 0;
 }
 
-.card p {
-  color: #bbb;
-  font-size: 13px;
-  line-height: 1.5;
-  min-height: 58px;
+.news-content p {
+  color: #aaa;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
-.card button {
-  width: 100%;
-  background: #e50914;
-  color: white;
-  border: none;
-  padding: 12px;
-  margin-top: 15px;
+.read-more {
+  display: inline-block;
+  margin-top: 18px;
+  color: #e50914;
+  text-decoration: none;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: bold;
-  border-radius: 4px;
+  transition: .3s;
 }
 
-.card button:hover {
-  background: #b20710;
+.read-more:hover {
+  letter-spacing: 2px;
 }
 
-.news {
-  background: #211c1d;
-  padding: 30px;
-  border-radius: 8px;
-  line-height: 1.8;
-  margin-top: 20px;
+/* ÚLTIMAS NOTÍCIAS */
+
+.latest {
+  background: #191919;
+  padding: 45px 8%;
 }
 
-.news h3 {
-  color: #e50914;
-  margin-bottom: 10px;
+.latest-item {
+  padding: 20px;
+  border-bottom: 1px solid #333;
+  transition: .3s;
+  opacity: 0;
+  transform: translateX(-25px);
 }
+
+.latest-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.latest-item:hover {
+  padding-left: 35px;
+  background: #222;
+  border-left: 4px solid #e50914;
+}
+
+.latest-item h3 {
+  margin-bottom: 8px;
+}
+
+.latest-item p {
+  color: #aaa;
+}
+
+/* RODAPÉ */
 
 footer {
-  background: #080808;
   text-align: center;
-  padding: 30px;
-  color: #888;
-  border-top: 2px solid #e50914;
-  font-size: 13px;
+  padding: 35px;
+  background: #080808;
+  color: #777;
+  border-top: 1px solid #292929;
 }
 
-#modal {
+footer strong {
+  color: #e50914;
+}
+
+/* MODAL */
+
+.modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: #000d;
-  z-index: 10;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(8px);
+  z-index: 200;
   align-items: center;
   justify-content: center;
   padding: 20px;
 }
 
+.modal.active {
+  display: flex;
+}
+
 .modal-content {
-  background: #211c1d;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 450px;
+  background: #1c1c1c;
+  padding: 35px;
+  max-width: 550px;
   width: 100%;
-  text-align: center;
+  border-radius: 12px;
+  border: 1px solid #e50914;
+  animation: zoom .3s ease;
 }
 
 .modal-content h2 {
-  color: #e50914;
   margin-bottom: 15px;
 }
 
 .modal-content p {
+  color: #ccc;
   line-height: 1.7;
-  color: #ddd;
 }
 
 .close {
-  margin-top: 20px;
-  padding: 12px 25px;
-  background: #e50914;
-  border: none;
-  color: white;
+  float: right;
+  color: #e50914;
+  font-size: 28px;
   cursor: pointer;
-  border-radius: 5px;
+  background: none;
+  border: none;
+}
+
+/* ANIMAÇÕES */
+
+@keyframes aparecerTopo {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes brilho {
+  from {
+    text-shadow: 0 0 5px #e50914;
+  }
+  to {
+    text-shadow: 0 0 20px #e50914;
+  }
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale(.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* CELULAR */
+
+@media(max-width: 650px) {
+  header {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  nav {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 75px 7%;
+  }
+
+  .container {
+    padding: 40px 6%;
+  }
+}
+
+/* ACESSIBILIDADE */
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
@@ -238,216 +402,156 @@ footer {
 <body>
 
 <header>
-  <div class="logo">NETFLIX VIP</div>
-  <div class="subtitle">JORNAL • CINEMA • ENTRETENIMENTO</div>
+  <div class="logo">JORNAL.</div>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#destaques">Destaques</a>
+    <a href="#ultimas">Últimas notícias</a>
+  </nav>
 </header>
 
-<nav>
-  <a href="#inicio">INÍCIO</a>
-  <a href="#filmes">FILMES</a>
-  <a href="#noticias">NOTÍCIAS</a>
-  <a href="#sobre">SOBRE</a>
-</nav>
-
 <section class="hero" id="inicio">
-  <span>EDIÇÃO ESPECIAL • NOVEMBRO 2026</span>
-  <h1>O MUNDO DO CINEMA NA SUA TELA!</h1>
-  <p>
-    Fique por dentro das novidades, lançamentos,
-    estreias e grandes sucessos que chegaram
-    ao catálogo da Netflix.
-  </p>
-</section>
-
-<section class="section" id="filmes">
-  <h2>🎬 LANÇAMENTOS DO MÊS</h2>
-
-  <input
-    class="search"
-    type="text"
-    id="search"
-    placeholder="🔎 Pesquise seu filme favorito..."
-  >
-
-  <div class="movies" id="movieList"></div>
-</section>
-
-<section class="section" id="noticias">
-  <h2>📰 ÚLTIMAS NOTÍCIAS</h2>
-
-  <div class="news">
-    <h3>Netflix recebe grandes novidades!</h3>
-    Novembro chega com filmes de suspense,
-    animação, romance e ação. Entre os destaques
-    estão Premonição 6, Minha Melhor Amiga e
-    O Brutalista.
-  </div>
-
-  <div class="news">
-    <h3>Especial de Natal 🎄</h3>
-    O catálogo também recebe produções natalinas
-    para quem gosta de aproveitar o fim de ano
-    assistindo a bons filmes.
-  </div>
-
-  <div class="news">
-    <h3>Transformers está de volta!</h3>
-    A franquia chega com diversos títulos para
-    os fãs de ação e ficção científica.
+  <div class="hero-content">
+    <span>INFORMAÇÃO EM PRIMEIRO LUGAR</span>
+    <h1>As notícias que movimentam o mundo.</h1>
+    <p>
+      Informação, atualidade e conteúdo em um só lugar.
+      Fique por dentro dos principais acontecimentos.
+    </p>
+    <button onclick="document.getElementById('destaques').scrollIntoView()">
+      Explorar notícias
+    </button>
   </div>
 </section>
 
-<section class="section" id="sobre">
-  <h2>⭐ SOBRE O JORNAL VIP</h2>
-  <p style="color:#bbb;line-height:1.8">
-    O Netflix VIP é um jornal digital dedicado
-    aos apaixonados por cinema e entretenimento.
-    Aqui você encontra novidades, lançamentos
-    e recomendações de filmes.
-    Site independente, sem vínculo oficial com a Netflix.
-  </p>
+<main>
+<section class="container" id="destaques">
+
+  <h2 class="section-title">Notícias em destaque</h2>
+
+  <div class="news-grid">
+
+    <article class="news-card">
+      <div class="news-image">🌎</div>
+      <div class="news-content">
+        <span class="category">MUNDO</span>
+        <h3>Os acontecimentos que impactam o planeta</h3>
+        <p>Acompanhe os principais acontecimentos internacionais e suas repercussões.</p>
+        <a class="read-more" onclick="abrirNoticia('Mundo','Acompanhe os principais acontecimentos internacionais e suas repercussões.')">Ler mais →</a>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <div class="news-image">💻</div>
+      <div class="news-content">
+        <span class="category">TECNOLOGIA</span>
+        <h3>O futuro da tecnologia</h3>
+        <p>Descubra novidades, tendências e inovações que estão transformando o mundo.</p>
+        <a class="read-more" onclick="abrirNoticia('Tecnologia','Descubra novidades, tendências e inovações que estão transformando o mundo.')">Ler mais →</a>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <div class="news-image">⚽</div>
+      <div class="news-content">
+        <span class="category">ESPORTES</span>
+        <h3>O mundo dos esportes</h3>
+        <p>Confira informações, curiosidades e acontecimentos do universo esportivo.</p>
+        <a class="read-more" onclick="abrirNoticia('Esportes','Confira informações, curiosidades e acontecimentos do universo esportivo.')">Ler mais →</a>
+      </div>
+    </article>
+
+    <article class="news-card">
+      <div class="news-image">📈</div>
+      <div class="news-content">
+        <span class="category">ECONOMIA</span>
+        <h3>Economia e mercado</h3>
+        <p>Entenda os principais assuntos que movimentam a economia.</p>
+        <a class="read-more" onclick="abrirNoticia('Economia','Entenda os principais assuntos que movimentam a economia.')">Ler mais →</a>
+      </div>
+    </article>
+
+  </div>
 </section>
+
+<section class="latest" id="ultimas">
+  <h2 class="section-title">Últimas notícias</h2>
+
+  <div class="latest-item">
+    <h3>📰 Informação e atualidade</h3>
+    <p>Confira aqui as principais novidades do dia.</p>
+  </div>
+
+  <div class="latest-item">
+    <h3>🌐 Notícias do Brasil e do mundo</h3>
+    <p>Fique informado sobre os acontecimentos mais importantes.</p>
+  </div>
+
+  <div class="latest-item">
+    <h3>🚀 Ciência e inovação</h3>
+    <p>Descubra novidades e tendências que podem transformar o futuro.</p>
+  </div>
+</section>
+</main>
 
 <footer>
-  NETFLIX VIP © 2026
-  <br><br>
-  Seu jornal de cinema e entretenimento.
+  <p>© 2026 <strong>JORNAL.</strong> Todos os direitos reservados.</p>
+  <p>Informação em primeiro lugar.</p>
 </footer>
 
-<div id="modal">
+<div class="modal" id="modal" onclick="fecharFora(event)">
   <div class="modal-content">
+    <button class="close" onclick="fecharModal()">×</button>
     <h2 id="modalTitle"></h2>
-    <p id="modalDescription"></p>
-    <button class="close" onclick="closeModal()">FECHAR</button>
+    <p id="modalText"></p>
   </div>
 </div>
 
 <script>
-const movies = [
-  {
-    title: "Minha Melhor Amiga",
-    genre: "Comédia",
-    date: "02/11/2026",
-    description: "Duas amigas viajam para a Europa e acabam vivendo aventuras inesperadas.",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600"
-  },
-  {
-    title: "Premonição 6: Laços de Sangue",
-    genre: "Terror",
-    date: "01/11/2026",
-    description: "Uma nova história cheia de suspense e acontecimentos assustadores.",
-    image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600"
-  },
-  {
-    title: "O Brutalista",
-    genre: "Drama",
-    date: "20/11/2026",
-    description: "Uma história intensa sobre arquitetura, ambição e recomeços.",
-    image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600"
-  },
-  {
-    title: "Ne Zha 2",
-    genre: "Animação",
-    date: "12/11/2026",
-    description: "Uma aventura fantástica cheia de ação e magia.",
-    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600"
-  },
-  {
-    title: "O Grinch",
-    genre: "Natal",
-    date: "10/11/2026",
-    description: "Uma aventura natalina para entrar no clima das festas.",
-    image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=600"
-  },
-  {
-    title: "Oblivion",
-    genre: "Ficção científica",
-    date: "17/11/2026",
-    description: "Uma aventura futurista cheia de mistérios.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600"
-  },
-  {
-    title: "Quasímodo: A Alma de Paris",
-    genre: "Drama",
-    date: "27/11/2026",
-    description: "Uma história ambientada na Paris do século XIX.",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600"
-  },
-  {
-    title: "O Expresso Polar",
-    genre: "Natal",
-    date: "13/11/2026",
-    description: "Uma viagem mágica que celebra o espírito natalino.",
-    image: "https://images.unsplash.com/photo-1513883049090-d0b7439799bf?w=600"
-  }
-];
+// ANIMAÇÕES AO ROLAR A PÁGINA
 
-const list = document.getElementById("movieList");
-
-function renderMovies(data) {
-  list.innerHTML = "";
-
-  if (data.length === 0) {
-    list.innerHTML = "<p>Nenhum filme encontrado.</p>";
-    return;
-  }
-
-  data.forEach((movie, index) => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const img = document.createElement("img");
-    img.src = movie.image;
-    img.alt = movie.title;
-    img.loading = "lazy";
-
-    const content = document.createElement("div");
-    content.className = "card-content";
-
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = movie.genre;
-
-    const title = document.createElement("h3");
-    title.textContent = movie.title;
-
-    const description = document.createElement("p");
-    description.textContent = "Estreia: " + movie.date;
-
-    const button = document.createElement("button");
-    button.textContent = "VER DETALHES";
-    button.addEventListener("click", () => showMovie(movie));
-
-    content.append(tag, title, description, button);
-    card.append(img, content);
-    list.appendChild(card);
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
   });
-}
-
-function showMovie(movie) {
-  document.getElementById("modalTitle").textContent = movie.title;
-  document.getElementById("modalDescription").textContent =
-    movie.description + " Gênero: " + movie.genre +
-    ". Data de estreia: " + movie.date + ".";
-  document.getElementById("modal").style.display = "flex";
-}
-
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-}
-
-document.getElementById("search").addEventListener("input", function() {
-  const value = this.value.toLowerCase();
-
-  const filtered = movies.filter(movie =>
-    movie.title.toLowerCase().includes(value) ||
-    movie.genre.toLowerCase().includes(value)
-  );
-
-  renderMovies(filtered);
+}, {
+  threshold: 0.15
 });
 
-renderMovies(movies);
+document.querySelectorAll(".news-card, .latest-item")
+.forEach(element => observer.observe(element));
+
+// ABRIR NOTÍCIA
+
+function abrirNoticia(titulo, texto) {
+  document.getElementById("modalTitle").textContent = titulo;
+  document.getElementById("modalText").textContent = texto;
+  document.getElementById("modal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+// FECHAR MODAL
+
+function fecharModal() {
+  document.getElementById("modal").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function fecharFora(event) {
+  if(event.target.id === "modal") {
+    fecharModal();
+  }
+}
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") {
+    fecharModal();
+  }
+});
 </script>
 
 </body>
