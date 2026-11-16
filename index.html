@@ -1,1 +1,454 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornal VIP | Netflix News</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #100d0e;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #080808;
+  border-bottom: 3px solid #e50914;
+  padding: 25px 7%;
+  text-align: center;
+}
+
+.logo {
+  color: #e50914;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: #ccc;
+  margin-top: 8px;
+  letter-spacing: 4px;
+  font-size: 12px;
+}
+
+nav {
+  background: #1b1718;
+  padding: 16px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #e50914;
+}
+
+.hero {
+  padding: 65px 8%;
+  background:
+    linear-gradient(90deg, #100d0e 20%, #100d0e99),
+    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600")
+    center/cover;
+}
+
+.hero span {
+  color: #e50914;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(35px, 6vw, 65px);
+  max-width: 700px;
+  margin: 20px 0;
+}
+
+.hero p {
+  color: #ddd;
+  max-width: 550px;
+  line-height: 1.7;
+}
+
+.section {
+  padding: 45px 7%;
+}
+
+.section h2 {
+  border-left: 5px solid #e50914;
+  padding-left: 15px;
+  margin-bottom: 28px;
+  font-size: 25px;
+}
+
+.search {
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background: #211c1d;
+  color: white;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+.movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: #211c1d;
+  border-radius: 9px;
+  overflow: hidden;
+  transition: .3s;
+  border: 1px solid #30292a;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: #e50914;
+}
+
+.card img {
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  background: #30292a;
+}
+
+.card-content {
+  padding: 17px;
+}
+
+.tag {
+  color: #e50914;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.card p {
+  color: #bbb;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 58px;
+}
+
+.card button {
+  width: 100%;
+  background: #e50914;
+  color: white;
+  border: none;
+  padding: 12px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.card button:hover {
+  background: #b20710;
+}
+
+.news {
+  background: #211c1d;
+  padding: 30px;
+  border-radius: 8px;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+.news h3 {
+  color: #e50914;
+  margin-bottom: 10px;
+}
+
+footer {
+  background: #080808;
+  text-align: center;
+  padding: 30px;
+  color: #888;
+  border-top: 2px solid #e50914;
+  font-size: 13px;
+}
+
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000d;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #211c1d;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-content h2 {
+  color: #e50914;
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  line-height: 1.7;
+  color: #ddd;
+}
+
+.close {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #e50914;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">NETFLIX VIP</div>
+  <div class="subtitle">JORNAL • CINEMA • ENTRETENIMENTO</div>
+</header>
+
+<nav>
+  <a href="#inicio">INÍCIO</a>
+  <a href="#filmes">FILMES</a>
+  <a href="#noticias">NOTÍCIAS</a>
+  <a href="#sobre">SOBRE</a>
+</nav>
+
+<section class="hero" id="inicio">
+  <span>EDIÇÃO ESPECIAL • NOVEMBRO 2026</span>
+  <h1>O MUNDO DO CINEMA NA SUA TELA!</h1>
+  <p>
+    Fique por dentro das novidades, lançamentos,
+    estreias e grandes sucessos que chegaram
+    ao catálogo da Netflix.
+  </p>
+</section>
+
+<section class="section" id="filmes">
+  <h2>🎬 LANÇAMENTOS DO MÊS</h2>
+
+  <input
+    class="search"
+    type="text"
+    id="search"
+    placeholder="🔎 Pesquise seu filme favorito..."
+  >
+
+  <div class="movies" id="movieList"></div>
+</section>
+
+<section class="section" id="noticias">
+  <h2>📰 ÚLTIMAS NOTÍCIAS</h2>
+
+  <div class="news">
+    <h3>Netflix recebe grandes novidades!</h3>
+    Novembro chega com filmes de suspense,
+    animação, romance e ação. Entre os destaques
+    estão Premonição 6, Minha Melhor Amiga e
+    O Brutalista.
+  </div>
+
+  <div class="news">
+    <h3>Especial de Natal 🎄</h3>
+    O catálogo também recebe produções natalinas
+    para quem gosta de aproveitar o fim de ano
+    assistindo a bons filmes.
+  </div>
+
+  <div class="news">
+    <h3>Transformers está de volta!</h3>
+    A franquia chega com diversos títulos para
+    os fãs de ação e ficção científica.
+  </div>
+</section>
+
+<section class="section" id="sobre">
+  <h2>⭐ SOBRE O JORNAL VIP</h2>
+  <p style="color:#bbb;line-height:1.8">
+    O Netflix VIP é um jornal digital dedicado
+    aos apaixonados por cinema e entretenimento.
+    Aqui você encontra novidades, lançamentos
+    e recomendações de filmes.
+    Site independente, sem vínculo oficial com a Netflix.
+  </p>
+</section>
+
+<footer>
+  NETFLIX VIP © 2026
+  <br><br>
+  Seu jornal de cinema e entretenimento.
+</footer>
+
+<div id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle"></h2>
+    <p id="modalDescription"></p>
+    <button class="close" onclick="closeModal()">FECHAR</button>
+  </div>
+</div>
+
+<script>
+const movies = [
+  {
+    title: "Minha Melhor Amiga",
+    genre: "Comédia",
+    date: "02/11/2026",
+    description: "Duas amigas viajam para a Europa e acabam vivendo aventuras inesperadas.",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600"
+  },
+  {
+    title: "Premonição 6: Laços de Sangue",
+    genre: "Terror",
+    date: "01/11/2026",
+    description: "Uma nova história cheia de suspense e acontecimentos assustadores.",
+    image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600"
+  },
+  {
+    title: "O Brutalista",
+    genre: "Drama",
+    date: "20/11/2026",
+    description: "Uma história intensa sobre arquitetura, ambição e recomeços.",
+    image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600"
+  },
+  {
+    title: "Ne Zha 2",
+    genre: "Animação",
+    date: "12/11/2026",
+    description: "Uma aventura fantástica cheia de ação e magia.",
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600"
+  },
+  {
+    title: "O Grinch",
+    genre: "Natal",
+    date: "10/11/2026",
+    description: "Uma aventura natalina para entrar no clima das festas.",
+    image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=600"
+  },
+  {
+    title: "Oblivion",
+    genre: "Ficção científica",
+    date: "17/11/2026",
+    description: "Uma aventura futurista cheia de mistérios.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600"
+  },
+  {
+    title: "Quasímodo: A Alma de Paris",
+    genre: "Drama",
+    date: "27/11/2026",
+    description: "Uma história ambientada na Paris do século XIX.",
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600"
+  },
+  {
+    title: "O Expresso Polar",
+    genre: "Natal",
+    date: "13/11/2026",
+    description: "Uma viagem mágica que celebra o espírito natalino.",
+    image: "https://images.unsplash.com/photo-1513883049090-d0b7439799bf?w=600"
+  }
+];
+
+const list = document.getElementById("movieList");
+
+function renderMovies(data) {
+  list.innerHTML = "";
+
+  if (data.length === 0) {
+    list.innerHTML = "<p>Nenhum filme encontrado.</p>";
+    return;
+  }
+
+  data.forEach((movie, index) => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const img = document.createElement("img");
+    img.src = movie.image;
+    img.alt = movie.title;
+    img.loading = "lazy";
+
+    const content = document.createElement("div");
+    content.className = "card-content";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = movie.genre;
+
+    const title = document.createElement("h3");
+    title.textContent = movie.title;
+
+    const description = document.createElement("p");
+    description.textContent = "Estreia: " + movie.date;
+
+    const button = document.createElement("button");
+    button.textContent = "VER DETALHES";
+    button.addEventListener("click", () => showMovie(movie));
+
+    content.append(tag, title, description, button);
+    card.append(img, content);
+    list.appendChild(card);
+  });
+}
+
+function showMovie(movie) {
+  document.getElementById("modalTitle").textContent = movie.title;
+  document.getElementById("modalDescription").textContent =
+    movie.description + " Gênero: " + movie.genre +
+    ". Data de estreia: " + movie.date + ".";
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+document.getElementById("search").addEventListener("input", function() {
+  const value = this.value.toLowerCase();
+
+  const filtered = movies.filter(movie =>
+    movie.title.toLowerCase().includes(value) ||
+    movie.genre.toLowerCase().includes(value)
+  );
+
+  renderMovies(filtered);
+});
+
+renderMovies(movies);
+</script>
+
+</body>
+</html>
